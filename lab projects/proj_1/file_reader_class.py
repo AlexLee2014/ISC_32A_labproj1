@@ -34,6 +34,30 @@ class File_reader_class:
                     if file == search_for:
                         out_list.append(file)
         return out_list
+    
+    '''
+    If this line of input contains the letter F by itself, 
+    print the first line of text from the file if it's a text file; print NOT TEXT if it is not.
+    '''
+    def print_first_line(self, filename):
+        infile = open(filename, 'r')
+        return infile.readline()
+    
+    '''
+    If this line of input contains the letter D by itself, 
+    make a duplicate copy of the file and store it in the same directory where the original resides,
+    but the copy should have .dup(short for "duplicate") appended to its filename.
+    For example, if the interesting file is C:\pictures\boo.jpg,
+    you would copy it to C:\pictures\boo.jpg.dup.
+    '''
+    def duplicate_file(self, filename):
+        outfile = open(filename, 'w')
+        return outfile
+    
+    '''
+    If the third line of the input contains the letter T by itself,
+    "touch" the file, which means to modify its last modified timestamp to be the current date/time.
+    '''
 
 print("all file names in surface level")
 new_reader = File_reader_class()
