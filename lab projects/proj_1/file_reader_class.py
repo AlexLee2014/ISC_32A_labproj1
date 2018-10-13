@@ -1,7 +1,7 @@
 '''
 Created on Oct 11, 2018
 
-@author: me
+@author: Alex
 '''
 import os
 
@@ -35,23 +35,33 @@ class File_reader_class:
                         out_list.append(file)
         return out_list
 
+print("all file names in surface level")
 new_reader = File_reader_class()
-for i in new_reader.file_printer("/home/me/ICS 32A/lab projects/proj_1/"):
+for i in new_reader.file_printer("/home/me/ICS 32A/10_12 lab files"):
     print(i)
+print()
 
-directories_ordered = new_reader.file_recursive_printer("/home/me/ICS 32A/lab projects/proj_1/")
+print("all directory names, sorted")
+directories_ordered = new_reader.file_recursive_printer("/home/me/ICS 32A/10_12 lab files")
 directories_ordered.sort()
 for i in directories_ordered:
     print(i)
-    
+print()
+
+print("all file names, ordered")    
 files_ordered = []
 for i in directories_ordered:
     for j in new_reader.file_printer(i):
         print(j)
         files_ordered.append(j)
+print()
 
+print("intereting search, All")
 print(new_reader.interesting_search('A', files_ordered))
-print(new_reader.interesting_search('N apple', files_ordered))
+print()
+
+print("interesting search, Name")
+print(new_reader.interesting_search('N C1_B3_A1_f', files_ordered))
 
 
 
