@@ -6,3 +6,5 @@ while( not re.match("^[DR] .+", command) ):
     if re.match("^[DR] .+", command):
         break
     print("ERROR")
+
+filereader = File_reader_class()

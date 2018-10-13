@@ -80,7 +80,7 @@ class File_reader_class:
         return
 
     
-
+"""
 print("all file names in surface level")
 new_reader = File_reader_class()
 for i in new_reader.file_printer("/home/me/ICS 32A/10_12 lab files"):
@@ -108,6 +108,4 @@ print()
 
 print("interesting search, Name")
 print(new_reader.interesting_search('N C1_B3_A1_f', files_ordered))
-
-
-
+"""
