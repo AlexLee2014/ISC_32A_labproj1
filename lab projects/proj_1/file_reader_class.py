@@ -16,13 +16,29 @@ class File_reader_class:
                 file_out.append(file)
         return file_out
     
-    def file_recursive_printer(self, filename):
+    def file_recursive_printer(self, directory):
         file_out = []
-        for root, dirs, files in os.walk(filename):  
+        for root, dirs, files in os.walk(directory):  
             for directories in dirs:
                 file_out.append(os.path.join(root, directories))
         return(file_out)
     
+    def search_by_name(self, filename : str) -> []:
+        return []
+    
+    def search_by_extension(self, extension : str) -> []:
+        return []
+    
+    def search_by_text(self, text : str) -> []:
+        return[]
+    
+    def search_by_max_size(self, size : int) -> []:
+        return[]
+    
+    def search_by_min_size(self, size : int) -> []:
+        return []
+    
+    """
     def interesting_search(self, command, filelist):
         out_list = []
         if command is 'A':
@@ -34,13 +50,14 @@ class File_reader_class:
                     if file == search_for:
                         out_list.append(file)
         return out_list
-    
+    """
+
     '''
     If this line of input contains the letter F by itself, 
     print the first line of text from the file if it's a text file; print NOT TEXT if it is not.
     '''
-    def print_first_line(self, filename):
-        infile = open(filename, 'r')
+    def get_first_line(self, file):
+        infile = open(file, 'r')
         return infile.readline()
     
     '''
@@ -50,14 +67,19 @@ class File_reader_class:
     For example, if the interesting file is C:\pictures\boo.jpg,
     you would copy it to C:\pictures\boo.jpg.dup.
     '''
-    def duplicate_file(self, filename):
+    def duplicate_file(self, filename : str):
         outfile = open(filename, 'w')
-        return outfile
     
     '''
     If the third line of the input contains the letter T by itself,
     "touch" the file, which means to modify its last modified timestamp to be the current date/time.
     '''
+    
+    def touch_file(selfs, file : str):
+        # touch file
+        return
+
+    
 
 print("all file names in surface level")
 new_reader = File_reader_class()
