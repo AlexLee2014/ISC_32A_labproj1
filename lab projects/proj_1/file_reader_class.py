@@ -5,6 +5,7 @@ Created on Oct 11, 2018
 '''
 import os
 import time
+from gi.types import nothing
 
 class File_reader_class:
     def __init__(self):
@@ -24,20 +25,43 @@ class File_reader_class:
                 file_out.append(os.path.join(root, directories))
         return(file_out)
     
-    def search_by_name(self, filename : str) -> []:
-        return []
+    def search_by_name(self, filename : str, files) -> []:
+        outfiles = []
+        for file in files:
+            if file is filename:
+                outfiles.append(file)
+        return outfiles
     
-    def search_by_extension(self, extension : str) -> []:
-        return []
+    def search_by_extension(self, extension : str, files) -> []:
+        outfile = []
+        for file in files:
+            space_index = file.find(" ")
+            if file[space_index:] is extension:
+                outfile.append(file)
     
-    def search_by_text(self, text : str) -> []:
-        return[]
+    def search_by_text(self, text : str, files) -> []:
+        outfile = []
+        for file in files:
+            infile = open(file, 'r')
+            if text in infile.read():
+                outfile.append(file)
+        return outfile
     
-    def search_by_max_size(self, size : int) -> []:
-        return[]
+    def search_by_max_size(self, size : int, files) -> []:
+        outfile = []
+        for file in files:
+            statinfo = os.stat(file)
+            if statinfo.st_size < size:
+                outfile.append(file)
+        return outfile
     
-    def search_by_min_size(self, size : int) -> []:
-        return []
+    def search_by_min_size(self, size : int, files) -> []:
+        outfile = []
+        for file in files:
+            statinfo = os.stat(file)
+            if statinfo.st_size > size:
+                outfile.append(file)
+        return outfile
     
     """
     def interesting_search(self, command, filelist):
@@ -56,17 +80,17 @@ class File_reader_class:
     '''
     If this line of input is the letter A alone on a line,
     all of the files found in the previous step are considered interesting.
-    '''
+    
     def return_all_files(self, files):
         return files
     
-    '''
+    
     If this line of input begins with the letter N,
     the search will be for files whose names exactly match a particular name.
     The N will be followed by a space;
     after the space, the rest of the line will indicate the name of the files to be searched for.
     Note that filenames include extensions, so a search for boo would not find a file named boo.doc.
-    '''
+    
     
     def return_file_by_name(self, files, name):
         outfiles = []
@@ -75,7 +99,7 @@ class File_reader_class:
                 outfiles.append(i)
         return outfiles
     
-    '''
+    
     If this line of input begins with the letter E,
     the search will be for files whose names have a particular extension.
     The E will be followed by a space; after the space,
@@ -90,7 +114,7 @@ class File_reader_class:
     Note, also, that there is a difference between what you might call a name ending and an extension.
     In our program, if the search is looking for files with the extension oc,
     a file named iliveinthe.oc would be found, but a file named invoice.doc would not.
-    '''
+    
     def return_file_by_extension(self, files, extension):
         outfile = []
         for file in files:
@@ -98,7 +122,7 @@ class File_reader_class:
             if file[space_index:] is extension:
                 outfile.append(file)
     
-    '''
+    
     If this line of input contains the letter F by itself, 
     print the first line of text from the file if it's a text file; print NOT TEXT if it is not.
     '''
