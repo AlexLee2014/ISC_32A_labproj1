@@ -1,6 +1,5 @@
 import re
 import os
-import pathlib
 
 # Define file functions
 def file_printer(directory : str) -> []:
@@ -85,7 +84,7 @@ def get_correct_input(pattern : str) -> str:
         line = input()
         if re.match(pattern, line):
             argument = "" if line.__len__() < 3 else line[2:]
-            return line[0], argument
+            return (line[0], argument)
         print("ERROR")
 
 def persist(funct, ex : Exception, error : str):
@@ -108,21 +107,14 @@ def lexicographical_sort(directory : str, inputfiles : [], slashtype : str) -> [
     outputfiles.extend(sorted(subfiles, key=lambda str:str.lower()))
     return outputfiles
 
-# Run program
-if __name__ == '__main__':
-    slashtype = os.path.join(os.getcwd(),"")[-1]
-    
-    def get_files() -> []:
-        function, argument = get_correct_input("^[DR] .+")
-        return argument, file_printer(argument) if function == ("D") else file_recursive_printer(argument)
-    
-    directory, files = persist(get_files, FileNotFoundError, "ERROR")
-    sortedfiles = lexicographical_sort(directory, files, slashtype)
-    for file in sortedfiles:
-        print(file)
-    
+# Define organizational functions
+
+def get_files() -> []:
+    function, argument = get_correct_input("^[DR] .+")
+    return argument, file_printer(argument) if function == ("D") else file_recursive_printer(argument)
+
+def select(function : str, sortedfiles : []) -> []:
     interestingfiles = []
-    function, argument = get_correct_input("^A$|^[NET] .+|^[<>] \d+$")
     if function == "A":
         interestingfiles = sortedfiles
     elif function == "N":
@@ -135,23 +127,40 @@ if __name__ == '__main__':
         interestingfiles = search_by_max_size(int(argument), sortedfiles)
     elif function == ">":
         interestingfiles = search_by_min_size(int(argument), sortedfiles)
-    
-    sortedfiles = lexicographical_sort(directory, interestingfiles, slashtype)
-    for file in sortedfiles:
-        print(file)
-    
-    function, argument = get_correct_input("^[FDT]$")
-    
+    return interestingfiles
+
+def operate(function : str, sortedfiles : []):
     if function == "F":
         for file in sortedfiles:
-            line = get_first_line(file)
-            if line.endswith("\n"):
-                print(line[:-1])
-            else:
-                print(line)
+            try:
+                line = get_first_line(file)
+                if line.endswith("\n"):
+                    print(line[:-1])
+                else:
+                    print(line)
+            except:
+                print("NOT TEXT")
     elif function == "D":
         for file in sortedfiles:
             duplicate_file(file)
     elif function == "T":
         for file in sortedfiles:
             touch_file(file)
+
+# Run program
+if __name__ == '__main__':
+    slashtype = os.path.join(os.getcwd(),"")[-1]
+    
+    directory, files = persist(get_files, FileNotFoundError, "ERROR")
+    sortedfiles = lexicographical_sort(directory, files, slashtype)
+    for file in sortedfiles:
+        print(file)
+
+    function, argument = get_correct_input("^A$|^[NET] .+|^[<>] \d+$")
+    interestingfiles = select(function, sortedfiles)
+    sortedfiles = lexicographical_sort(directory, interestingfiles, slashtype)
+    for file in sortedfiles:
+        print(file)
+    
+    function, argument = get_correct_input("^[FDT]$")
+    operate(function, sortedfiles)
