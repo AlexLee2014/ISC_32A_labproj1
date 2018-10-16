@@ -58,7 +58,7 @@ def search_by_min_size(size : int, files : []) -> []:
 def get_first_line(filepath : str) -> str:
     infile = open(filepath, 'r')
     line = infile.readline()
-    close(infile)
+    infile.close()
     return line
 
 def duplicate_file(filepath : str):
@@ -66,16 +66,16 @@ def duplicate_file(filepath : str):
     lines = infile.read()
     outfile = open(filepath + ".dup", 'w+')
     outfile.write(lines)
-    close(infile)
-    close(outfile)
+    infile.close()
+    outfile.close()
     
 def touch_file(filepath : str):
     infile = open(filepath, 'r')
     infile.read()
     outfile = open(filepath, 'w')
     outfile.write("")
-    close(infile)
-    close(outfile)
+    infile.close()
+    outfile.close()
 
 # Define utility functions
 def get_correct_input(pattern : str) -> str:
@@ -141,7 +141,11 @@ if __name__ == '__main__':
     
     if function == "F":
         for file in sortedfiles:
-            print(get_first_line(file))
+            line = get_first_line(file)
+            if line.endswith("\n"):
+                print(line[:-1])
+            else:
+                print(line)
     elif function == "D":
         for file in sortedfiles:
             duplicate_file(file)
