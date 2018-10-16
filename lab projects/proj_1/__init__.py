@@ -49,15 +49,15 @@ function, argument = get_correct_input("^A$|^[NET] .+|^[<>] \d+$")
 if function == "A":
     interestingfiles = sortedfiles
 elif function == "N":
-    interestingfiles = filereader.search_by_name(argument)
+    interestingfiles = filereader.search_by_name(argument, sortedfiles)
 elif function == "E":
-    interestingfiles = filereader.search_by_extension(argument)
+    interestingfiles = filereader.search_by_extension(argument, sortedfiles)
 elif function == "T":
-    interestingfiles = filereader.search_by_text(argument)
+    interestingfiles = filereader.search_by_text(argument, sortedfiles)
 elif function == "<":
-    interestingfiles = filereader.search_by_max_size(int(argument))
+    interestingfiles = filereader.search_by_max_size(int(argument), sortedfiles)
 elif function == ">":
-    interestingfiles = filereader.search_by_min_size(int(argument))
+    interestingfiles = filereader.search_by_min_size(int(argument), sortedfiles)
 
 sortedfiles = lexicographical_sort(directory, interestingfiles)
 for file in sortedfiles:
