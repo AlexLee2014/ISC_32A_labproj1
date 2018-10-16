@@ -1,7 +1,6 @@
 import re
 from file_reader_class import File_reader_class
 
-<<<<<<< HEAD
 # Define functions
 
 def get_correct_input(pattern : str) -> str:
@@ -68,7 +67,10 @@ function, argument = get_correct_input("^[FDT]$")
 
 if function == "F":
     for file in sortedfiles:
-        print(filereader.get_first_line(file)
+        print(filereader.get_first_line(file))
 elif function == "D":
     for file in sortedfiles:
         filereader.duplicate_file(file)
+elif function == "T":
+    for file in sortedfiles:
+        filereader.touch_file(file)
