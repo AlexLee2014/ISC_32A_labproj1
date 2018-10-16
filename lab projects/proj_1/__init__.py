@@ -1,6 +1,7 @@
 import re
 from file_reader_class import File_reader_class
 
+<<<<<<< HEAD
 # Define functions
 
 def get_correct_input(pattern : str) -> str:
