@@ -1,5 +1,6 @@
 import re
 import os
+import pathlib
 
 # Define file functions
 def file_printer(directory : str) -> []:
@@ -19,10 +20,10 @@ def file_recursive_printer(directory : str) -> []:
             outfiles.extend(file_recursive_printer(path))
     return outfiles
 
-def search_by_name(filename : str, files : []) -> []:
+def search_by_name(filename : str, files : [], slashtype : str) -> []:
     outfiles = []
     for file in files:
-        if file.endswith("\\" + filename):
+        if file.endswith(slashtype + filename):
             outfiles.append(file)
     return outfiles
 
@@ -94,12 +95,12 @@ def persist(funct, ex : Exception, error : str):
         except ex:
             print(error)
 
-def lexicographical_sort(directory : str, inputfiles : []) -> []:
+def lexicographical_sort(directory : str, inputfiles : [], slashtype : str) -> []:
     outputfiles = []
     directfiles = []
     subfiles = []
     for file in inputfiles:
-        if "\\" in file[directory.__len__()+1:]:
+        if slashtype in file[directory.__len__()+1:]:
             subfiles.append(file)
         else:
             directfiles.append(file)
@@ -109,12 +110,14 @@ def lexicographical_sort(directory : str, inputfiles : []) -> []:
 
 # Run program
 if __name__ == '__main__':
+    slashtype = os.path.join(os.getcwd(),"")[-1]
+    
     def get_files() -> []:
         function, argument = get_correct_input("^[DR] .+")
         return argument, file_printer(argument) if function == ("D") else file_recursive_printer(argument)
     
     directory, files = persist(get_files, FileNotFoundError, "ERROR")
-    sortedfiles = lexicographical_sort(directory, files)
+    sortedfiles = lexicographical_sort(directory, files, slashtype)
     for file in sortedfiles:
         print(file)
     
@@ -123,7 +126,7 @@ if __name__ == '__main__':
     if function == "A":
         interestingfiles = sortedfiles
     elif function == "N":
-        interestingfiles = search_by_name(argument, sortedfiles)
+        interestingfiles = search_by_name(argument, sortedfiles, slashtype)
     elif function == "E":
         interestingfiles = search_by_extension(argument, sortedfiles)
     elif function == "T":
@@ -133,7 +136,7 @@ if __name__ == '__main__':
     elif function == ">":
         interestingfiles = search_by_min_size(int(argument), sortedfiles)
     
-    sortedfiles = lexicographical_sort(directory, interestingfiles)
+    sortedfiles = lexicographical_sort(directory, interestingfiles, slashtype)
     for file in sortedfiles:
         print(file)
     
