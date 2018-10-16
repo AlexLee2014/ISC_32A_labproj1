@@ -4,8 +4,6 @@ Created on Oct 11, 2018
 @author: Alex
 '''
 import os
-import time
-from gi.types import nothing
 
 class File_reader_class:
     def __init__(self):
@@ -15,16 +13,19 @@ class File_reader_class:
         file_out = []
         for file in os.listdir(directory):
             if os.path.isfile(os.path.join(directory, file)):
-                file_out.append(file)
+                file_out.append(os.path.join(directory, file))
         return file_out
     
     def file_recursive_printer(self, directory : str) -> []:
         file_out = []
-        for root, dirs, files in os.walk(directory):  
-            for directories in dirs:
-                file_out.append(os.path.join(root, directories))
-        return(file_out)
-    
+        for path in os.listdir(directory):
+            path = os.path.join(directory, path)
+            if os.path.isfile(path):
+                file_out.append(path)
+            elif os.path.isdir(path):
+                file_out.extend(self.file_recursive_printer(path))
+        return file_out
+
     def search_by_name(self, filename : str, files : []) -> []:
         outfiles = []
         for file in files:
