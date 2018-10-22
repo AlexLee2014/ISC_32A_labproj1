@@ -65,9 +65,12 @@ def search_by_text(text : str, files : []) -> []:
     """
     outfiles = []
     for file in files:
-        infile = open(file, 'r')
-        if text in infile.read():
-            outfiles.append(file)
+        try:
+            infile = open(file, 'r')
+            if text in infile.read():
+                outfiles.append(file)
+        except UnicodeDecodeError:
+            continue
     return outfiles
 
 def search_by_max_size(size : int, files : []) -> []:
@@ -79,7 +82,7 @@ def search_by_max_size(size : int, files : []) -> []:
     """
     outfiles = []
     for file in files:
-        if os.stat(file).st_size < size:
+        if os.stat(file).st_size <= size:
             outfiles.append(file)
     return outfiles
 
@@ -92,11 +95,12 @@ def search_by_min_size(size : int, files : []) -> []:
     """
     outfile = []
     for file in files:
-        if os.stat(file).st_size > size:
+        if os.stat(file).st_size >= size:
             outfile.append(file)
     return outfile
 
 def get_first_line(filepath : str) -> str:
+    
     """Return the first line in a given file.
 
     Keyword arguments:
